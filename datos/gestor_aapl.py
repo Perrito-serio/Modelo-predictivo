@@ -1,7 +1,7 @@
 # --- ¡CAMBIO AQUÍ! ---
-# Antes decía: from .fuente_yfinance import ...
-# Ahora dice:
-from datos.fuente_yfinance import obtener_datos_precios, obtener_datos_relevantes
+# Antes decía: from datos.fuente_yfinance import ...
+# Ahora dice (con un . al inicio):
+from .fuente_yfinance import obtener_datos_precios, obtener_datos_relevantes
 
 # Ticker específico para este gestor
 TICKER_GESTOR = "AAPL"

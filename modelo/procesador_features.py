@@ -23,10 +23,11 @@ except ImportError:
 # --- CONFIGURACIÓN DEL MODELO ---
 TARGET_PREDICCION = "AAPL"
 FACTOR_PREDICTOR = "SMH"
-DIAS_A_PREDECIR = 5       # Queremos predecir si subirá en los próximos 5 días
+# ¡CAMBIO! Eliminamos DIAS_A_PREDECIR = 5 de aquí.
 PERIODO_CORRELACION = 30  # Ventana de 30 días para la correlación móvil
 
-def crear_features_y_target():
+# ¡CAMBIO! Añadimos el argumento (con valor por defecto 5)
+def crear_features_y_target(dias_a_predecir=5):
     """
     Función principal que carga, combina y procesa todos los datos
     para crear la tabla de entrenamiento (X) y el objetivo (y).
@@ -82,10 +83,13 @@ def crear_features_y_target():
     # --- 4. Creación del Objetivo (Target - y) ---
     # Queremos predecir: ¿El precio de AAPL será más alto 
     # en 'DIAS_A_PREDECIR' días de lo que es hoy?
-    print(f"[Procesador] Creando target (y) a {DIAS_A_PREDECIR} días...")
+    
+    # ¡CAMBIO! Usamos el argumento de la función 'dias_a_predecir'
+    print(f"[Procesador] Creando target (y) a {dias_a_predecir} días...")
 
     # Usamos .shift(-N) para "traer" el precio futuro N días a la fila de hoy
-    precio_futuro = df['AAPL'].shift(-DIAS_A_PREDECIR)
+    # ¡CAMBIO! Usamos el argumento de la función 'dias_a_predecir'
+    precio_futuro = df['AAPL'].shift(-dias_a_predecir)
     
     # La condición: 1 si el precio futuro es > al precio de hoy, 0 si no
     df['Target'] = (precio_futuro > df['AAPL']).astype(int)
@@ -111,4 +115,3 @@ def crear_features_y_target():
     print(f"Total de muestras de entrenamiento: {len(X)}")
     
     return X, y
-
